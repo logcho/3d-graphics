@@ -1,22 +1,28 @@
+// Color constants
 const BACKGROUND = "#101010";
 const FOREGROUND = "#50ff50";
 console.log(game);
+// HTML canvas
 game.width = 800;
 game.height = 800;
+// Context
 const ctx = game.getContext("2d");
 console.log(ctx);
 
+// Clear the screen fill with background constant
 function clear(){
     ctx.fillStyle = BACKGROUND;
     ctx.fillRect(0,0,game.width,game.height);
 }
 
+// Draw point with foreground color constant
 function point({x,y}){
     const s = 20;
     ctx.fillStyle = FOREGROUND;
     ctx.fillRect(x-s/2,y-s/2 ,s,s);
 }
 
+// Convert NDC (-1..1) to screen-space pixels (origin top-left)
 function screen(p){
     // -1..1 => 0..2 => 0..1 => 0..w
     return {
@@ -25,6 +31,7 @@ function screen(p){
     }    
 }
 
+// Convert 3d point to the projected 2d point of x and y
 function project({x,y,z}){
     return{
         x: x/z,
@@ -32,10 +39,12 @@ function project({x,y,z}){
     }
 }
 
+// translate z by dz
 function translate_z({x,y,z},dz){
     return {x,y,z:z+dz};
 }
 
+// Rotate coordinate around z axis utilizing matrix rotation logic
 function rotate_xz({x,y,z},angle){
     const c = Math.cos(angle);
     const s = Math.sin(angle);
@@ -46,6 +55,7 @@ function rotate_xz({x,y,z},angle){
     };
 }
 
+// Create a line stroke from 1 point to another
 function line(p1,p2){
     ctx.strokeStyle = FOREGROUND;
     ctx. lineWidth = 1; 
@@ -1034,6 +1044,7 @@ const FPS = 60;
 let dz = 1;
 let angle = 0;
 
+// Animates rotation of 3d rendered object 
 function frame(){
     const dt = 1/FPS; 
     // dz+=1*dt;
